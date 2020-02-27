@@ -63,6 +63,10 @@ describe(`Bookmarks Endpoints`, () => {
 
     });
 
+    describe(`POST /bookmarks`, () => {
+      
+    });
+
   });
 
   context(`Authorization is correct`, () => {

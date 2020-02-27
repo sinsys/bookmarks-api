@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const { validateBearerToken } = require('./authenticate.js');
 const { NODE_ENV } = require('./config');
 
-const bookmarksRouter = require('../routers/bookmarks-router');
+const bookmarksRouter = require('./bookmarks/bookmarks-router');
 
 const app = express();
 

@@ -19,6 +19,20 @@ const BookmarksService = {
         )
         .first()
     );
+  },
+
+  addBookmark(knex, bookmark) {
+    return (
+      knex
+        .insert(bookmark)
+        .into('bookmarks')
+        .returning('*')
+        .then(bookmarks => {
+          return (
+            bookmarks[0]
+          );
+        })
+    );
   }
 
 };

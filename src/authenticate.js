@@ -16,8 +16,8 @@ validateBearerToken = (req, res, next) => {
     to your requests for access 
 
   */
-  const apiToken = `1234567890abcdef`;
-  // const apiToken = process.env.API_TOKEN;
+  // const apiToken = `1234567890abcdef`;
+  const apiToken = process.env.API_TOKEN;
   const authToken = req.get('Authorization');
 
 
