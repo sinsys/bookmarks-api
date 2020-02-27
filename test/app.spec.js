@@ -24,8 +24,6 @@ describe('App', () => {
 
     });
 
-
-
   });
 
   context(`Authorization incorrect`, () => {
@@ -46,7 +44,5 @@ describe('App', () => {
     });
 
   });
-
-
 
 });

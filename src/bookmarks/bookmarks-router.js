@@ -1,14 +1,21 @@
 const express = require('express');
 const uuid = require('uuid');
-const logger = require('../src/logger');
+const logger = require('../logger');
+const xss = require('xss');
 
 const bodyParser = express.json();
 const bookmarksRouter = express.Router();
-const BookmarksService = require('../services/bookmarks-service');
+const BookmarksService = require('./bookmarks-service');
 
-const { staticBookmarks } = require('../BOOKMARKS');
-
-const { PORT } = require('../src/config');
+serializeBookmark = (bookmark) => {
+  return ({
+    id: bookmark.id,
+    title: xss(bookmark.title),
+    url: xss(bookmark.url),
+    desc: xss(bookmark.desc),
+    rating: xss(rating)
+  });
+};
 
 bookmarksRouter
   .route('/bookmarks')
@@ -21,31 +28,13 @@ bookmarksRouter
       })
       .catch(next);
   })
-  .post(bodyParser, (req, res) => {
+  .post( bodyParser, (req, res, next) => {
     const {
       title,
       url,
       desc,
       rating
     } = req.body;
-
-    if ( !title ) {
-      logger.error(`Title is required`);
-      return (
-        res
-          .status(400)
-          .send('Invalid data')
-      );
-    };
-
-    if ( !url ) {
-      logger.error(`URL is required`);
-      return (
-        res
-          .status(400)
-          .send('Invalid data')
-      );
-    };
 
     const validUrl = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/;
 
@@ -54,25 +43,7 @@ bookmarksRouter
       return (
         res
           .status(400)
-          .send('Invalid data')
-      );
-    };
-
-    if ( !desc ) {
-      logger.error(`Description is required`);
-      return (
-        res
-          .status(400)
-          .send('Invalid data')
-      );
-    };
-
-    if ( !rating ) {
-      logger.error(`Rating is required`);
-      return (
-        res
-          .status(400)
-          .send('Invalid data')
+          .send('Invalid url')
       );
     };
 
@@ -81,7 +52,7 @@ bookmarksRouter
       return (
         res
         .status(400)
-        .send('Invalid data')
+        .send('Invalid rating')
       );
     };
 
@@ -93,7 +64,7 @@ bookmarksRouter
       return (
         res
         .status(400)
-        .send('Invalid data')
+        .send('Rating must be an integer between 1 and 5')
       );
     };
 
@@ -106,16 +77,41 @@ bookmarksRouter
       rating
     };
 
-    bookmarks.push(bookmark);
-
-    logger.info(
-      `Bookmark with id ${id} created`
-    );
-
-    res
-      .status(201)
-      .location(`http://localhost:${PORT}/bookmark/${id}`)
-      .json(bookmark);
+    for ( const [key, value] of Object.entries(bookmark) ) {
+      if ( value == null ) {
+        logger.error(`Missing '${key} in request body`);
+        return (
+          res
+            .status(400)
+            .json({
+              error: {
+                message: `Missing '${key}' in request body`
+              }
+            })
+        );
+      }
+    };
+    
+    const knexInst = req.app.get('db');
+    BookmarksService
+      .addBookmark(
+        knexInst,
+        bookmark
+      )
+      .then(bookmark => {
+        return (
+          res
+            .status(201)
+            .location(`/bookmarks/${bookmark.id}`)
+            .json(serializeBookmark(bookmark))
+        );
+      })
+      .then(() => {
+        logger.info(
+          `Bookmark with id ${id} created`
+        );
+      })
+      .catch(next);
   });
 
 bookmarksRouter
