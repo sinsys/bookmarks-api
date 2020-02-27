@@ -1,17 +1,26 @@
-# Express Boilerplate!
+# Bookmarks API
 
-This is a boilerplate project used for starting new projects!
+This is an API that can be utilized for the bookmarks client covered earlier in the curriculum.
 
-## Set up
+## Authentication
 
-Complete the following steps to start a new project (NEW-PROJECT-NAME):
+View the `./src/authenticate.js` file for details to mock authentication for grading.
 
-1. Clone this repository to your local machine `git clone https://github.com/sinsys/express-boilerplate.git NEW-PROJECTS-NAME`
-2. `cd` into the cloned repository
-3. Make a fresh start of the git history for this project with `rm -rf .git && git init`
-4. Install the node dependencies `npm install`
-5. Move the example Environment file to `.env` that will be ignored by git and read by the express server `mv example.env .env`
-6. Edit the contents of the `package.json` to use NEW-PROJECT-NAME instead of `"name": "express-boilerplate",`
+## Endpoints
+
+  - GET `/bookmark`
+    - Returns all bookmarks in our store
+  - POST `/bookmark` **This section is pending further dev**
+    - Adds a bookmark to our store
+    - Expected format for body is JSON:
+      - `title`: `string`
+      - `url`: `string` (example.com, www.example.com, http(s)://www.example.com)
+      - `desc`: `string`
+      - `rating`: `number` (1-5 only)
+  - GET `/bookmark/:id`
+    - Returns a single bookmark
+  - DELETE `/bookmark/:id` **This section is pending further dev**
+    - Deletes a bookmark from our store
 
 ## Scripts
 
@@ -23,6 +32,21 @@ Run the tests `npm test`
 
 Run tests and continue watching `npm watch`
 
-## Deploying
+## Noted Alterations
 
-When your new project is ready for deployment, add a new Heroku application with `heroku create`. This will make a new git remote called "heroku" and you can then `npm run deploy` which will push to this remote's master branch.
+  - `bookmarks-server` has been renamed to `bookmarks-api`
+  - `description` has been renamed to `desc` for bookmark entries
+  - 
+## Requirements
+
+  1. Make two new databases, bookmarks and bookmarks-test.
+  2. Write the first migration inside the bookmarks-server project that creates the table for bookmarks. Then use the migration to create the tables in both new databases.
+    - The table should contain fields for id, title, url, description and rating
+    - The description is the only optional field
+    - Choose suitable data types for each column
+  3. Refactor the GET /bookmarks endpoint and tests. The endpoint should use the database tables.
+    - You'll need to wire up Knex into your server and tests.
+    - Write a BookmarksService object in the bookmarks-server project that will support CRUD for bookmarks using Knex.
+    - You should use fixtures in your tests for the GET /bookmarks and GET /bookmarks/:bookmark_id
+    - Write tests for how each endpoint behaves when the database is empty
+  4. Write seeding scripts to insert dummy bookmarks into the database tables so you can check that the refactored endpoints work when your server is running locally.
