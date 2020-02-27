@@ -3,7 +3,10 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const { validateBearerToken } = require('./authenticate.js');
 const { NODE_ENV } = require('./config');
+
+const bookmarksRouter = require('../routers/bookmarks-router');
 
 const app = express();
 
@@ -15,11 +18,19 @@ const morganOpt =
 app.use(
   morgan(morganOpt),
   helmet(),
-  cors()
+  cors(),
+  validateBearerToken,
+  bookmarksRouter
 );
 
+/* //////////////////////////////
+Dependencies and setup completed
+////////////////////////////// */
+
 app.get('/', (req, res) => {
-  res.send('Hello, world!');
+  res.send({
+    status: 'Server is up'
+  });
 });
 
 errorHandler = (err, req, res, next) => {
