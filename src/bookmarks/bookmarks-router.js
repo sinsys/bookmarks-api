@@ -1,5 +1,5 @@
 const express = require('express');
-const uuid = require('uuid');
+const { uuid } = require('uuidv4');
 const logger = require('../logger');
 const xss = require('xss');
 
