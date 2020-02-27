@@ -8,18 +8,18 @@ View the `./src/authenticate.js` file for details to mock authentication for gra
 
 ## Endpoints
 
-  - GET `/bookmark`
+  - GET `/bookmarks`
     - Returns all bookmarks in our store
-  - POST `/bookmark` **This section is pending further dev**
+  - POST `/bookmarks` **This section is pending further dev**
     - Adds a bookmark to our store
     - Expected format for body is JSON:
       - `title`: `string`
       - `url`: `string` (example.com, www.example.com, http(s)://www.example.com)
       - `desc`: `string`
       - `rating`: `number` (1-5 only)
-  - GET `/bookmark/:id`
+  - GET `/bookmarks/:id`
     - Returns a single bookmark
-  - DELETE `/bookmark/:id` **This section is pending further dev**
+  - DELETE `/bookmarks/:id` **This section is pending further dev**
     - Deletes a bookmark from our store
 
 ## Scripts
