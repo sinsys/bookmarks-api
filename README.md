@@ -10,7 +10,7 @@ View the `./src/authenticate.js` file for details to mock authentication for gra
 
   - GET `/bookmarks`
     - Returns all bookmarks in our store
-  - POST `/bookmarks` **This section is pending further dev**
+  - POST `/bookmarks`
     - Adds a bookmark to our store
     - Expected format for body is JSON:
       - `title`: `string`
@@ -19,7 +19,7 @@ View the `./src/authenticate.js` file for details to mock authentication for gra
       - `rating`: `number` (1-5 only)
   - GET `/bookmarks/:id`
     - Returns a single bookmark
-  - DELETE `/bookmarks/:id` **This section is pending further dev**
+  - DELETE `/bookmarks/:id`
     - Deletes a bookmark from our store
 
 ## Scripts
