@@ -33,7 +33,7 @@ describe('App', () => {
       it(`responds with 401`, () => {
         return (
           supertest(app)
-            .get('/bookmarks')
+            .get('/')
             .expect(
               401,
               { error: `Unauthorized request` }
