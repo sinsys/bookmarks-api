@@ -1,0 +1,2 @@
+ALTER TABLE bookmarks
+  DROP COLUMN IF EXISTS uuid;

@@ -16,7 +16,7 @@ const morganOpt =
     : 'common';
 
 app.use(
-  morgan(morganOpt),
+  // morgan(morganOpt),
   helmet(),
   cors(),
   validateBearerToken,
